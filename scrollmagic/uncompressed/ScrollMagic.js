@@ -1532,10 +1532,18 @@
 			};
 			if (_controller && _options.triggerElement) {
 				// take away triggerHook portion to get relative to top
-				_scrollOffset.start -= _controller.info("size") * _options.triggerHook;
+				if( _options.triggerHook <= 1) {
+					_scrollOffset.start -= _controller.info("size") * _options.triggerHook;
+				}
+				else
+				{
+					_scrollOffset.start -= _options.triggerHook;
+				}
+				console.log(_scrollOffset.start);
 			}
 			_scrollOffset.end = _scrollOffset.start + _options.duration;
 		};
+
 
 		/**
 		 * Updates the duration if set to a dynamic function.
@@ -1919,6 +1927,7 @@
 		 * @returns {number} Start position of the scene. Top position value for vertical and left position value for horizontal scrolls.
 		 */
 		this.triggerPosition = function () {
+			console.log('set trigger');
 			var pos = _options.offset; // the offset is the basis
 			if (_controller) {
 				// get the trigger position
@@ -2449,7 +2458,7 @@
 					"onLeave": 0
 				};
 				if (_util.type.Number(val)) {
-					val = Math.max(0, Math.min(parseFloat(val), 1)); //  make sure its betweeen 0 and 1
+					val = Math.max(0, parseFloat(val)); //  make sure its betweeen 0 and 1
 				} else if (val in translate) {
 					val = translate[val];
 				} else {
